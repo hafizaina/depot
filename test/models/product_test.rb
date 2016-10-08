@@ -6,7 +6,7 @@ class ProductTest < ActiveSupport::TestCase
   def new_product(image_url)
     Product.new(title:           "My Book Title",
                 description:     "yyy",
-                price:           1
+                price:           1,
                 image_url:       image_url)
   end
 
@@ -40,20 +40,20 @@ class ProductTest < ActiveSupport::TestCase
                           image_url:       "zzz.jpg")
     product.price = -1
     assert product.invalid?
-    assert_equal["must be greater than or equal to 0.01"], product.errors[:price]
+    assert_equal(["must be greater than or equal to 0.01"], product.errors[:price])
 
     product.price = 0
     assert product.invalid?
-    assert_equal["must be greater than or equal to 0.01"], product.errors[:price]
+    assert_equal(["must be greater than or equal to 0.01"], product.errors[:price])
 
     product.price = 1
     assert product.valid?
   end
 
   test "product is not valid without unique title" do
-    Product.new(title:           products(:ruby).title,
+    product = Product.new(title:           products(:ruby).title,
                 description:     "yyy",
-                price:           1
+                price:           1,
                 image_url:       "fred.gif")
     assert product.invalid?
     assert_equal [I18n.translate('erros.messages.taken')], product.errors[:title]
