@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+
+  resources :orders
+  get '/carts' => redirect("/")
+  delete '/line_items' => 'line_items#destroy'
+
+  resources :line_items
+  resources :carts
+
   get 'store/index'
 
   resources :products
